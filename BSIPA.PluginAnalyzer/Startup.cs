@@ -1,19 +1,14 @@
-﻿using Hive.Plugins;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+﻿using DryIoc;
+using Hive.Plugins;
 
 namespace BSIPA.PluginAnalyzer;
+#pragma warning disable CA1052
 
 [PluginStartup]
 public class Startup
 {
-    private readonly IConfiguration _configuration;
-
-    public Startup(IConfiguration configuration) => _configuration = configuration;
-
-    public void ConfigureServices(IServiceCollection services)
+    public static void ConfigureContainer(Container container)
     {
-        _ = services;
-        _ = _configuration;
+        container.RegisterMany<PluginAnalyzerPlugin>();
     }
 }
