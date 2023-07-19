@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.Json;
 using Hive.Controllers;
 using Hive.Models;
+using Hive.Plugins.Aggregates;
 using Hive.Versioning;
 using Serilog;
 
@@ -25,7 +26,8 @@ public class PluginAnalyzerPlugin : IUploadPlugin
         _logger = logger;
     }
     
-    public bool ValidateAndPopulateKnownMetadata(Mod mod, Stream data, out object? validationFailureInfo)
+    [return: StopIfReturns(false)]
+    public bool ValidateAndPopulateKnownMetadata(Mod mod, Stream data, [ReturnLast] out object? validationFailureInfo)
     {
         string? failureInfo = null;
         
@@ -201,8 +203,9 @@ public class PluginAnalyzerPlugin : IUploadPlugin
         validationFailureInfo = null;
         return true;
     }
-
-    public bool ValidateAndFixUploadedData(Mod mod, ArbitraryAdditionalData originalAdditionalData, out object? validationFailureInfo)
+    
+    [return: StopIfReturns(false)]
+    public bool ValidateAndFixUploadedData(Mod mod, ArbitraryAdditionalData originalAdditionalData, [ReturnLast] out object? validationFailureInfo)
     {
         validationFailureInfo = null;
         return true;
